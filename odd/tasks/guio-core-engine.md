@@ -20,21 +20,22 @@ Route for every task: inline. No Writer trigger holds: tasks are small and seque
 
 | ID | Specs | Task | Status | Commit |
 |----|-------|------|--------|--------|
-| T1 | - | Project scaffold | pending | - |
-| T2 | S1 | Domain schemas and hashing | pending | - |
-| T3 | S2 | Reference marks and number matching | pending | - |
-| T4 | S3 | Quote check | pending | - |
-| T5 | S4 | Timing | pending | - |
-| T6 | S2 | Number check | pending | - |
-| T7 | S7 | Humanize guard | pending | - |
-| T8 | S5 | Staleness | pending | - |
-| T9 | S6 | Export gate | pending | - |
-| T10 | S8 | Atomic writes | pending | - |
-| T11 | S1, S8 | Project store | pending | - |
-| T12 | S9 | Default templates | pending | - |
+| T1 | - | Project scaffold | done | 98ddf41 |
+| T2 | S1 | Domain schemas and hashing | done | e4cf77d |
+| T3 | S2 | Reference marks and number matching | done | 1784fa6 |
+| T4 | S3 | Quote check | done | 6432ce1 |
+| T5 | S4 | Timing | done | 1cbf81d |
+| T6 | S2 | Number check | done | 0f53174 |
+| T7 | S7 | Humanize guard | done | ea2db98 |
+| T8 | S5 | Staleness | done | 204e21b |
+| T9 | S6 | Export gate | done | c10ffcd |
+| T10 | S8 | Atomic writes | done | e066ece |
+| T11 | S1, S8 | Project store | done | 6c19b87 |
+| T12 | S9 | Default templates | done | 0746e2a |
 
 ## Log
 
 - L1 (2026-11-09, user, verbatim): "bien, lo que vamos a hacer es una app para poder hacer los guiones de mis videos de forma mas facil  rapida, desde las fuentes con informacion a extraer hasta la creacion del guio y formato de manera profesional y unica. El usuario ingresaria los links de las noticias o temas a hablar y de manera organizada deberia de crearse el guion con sus referencias aparte. Todo esto de manera organizada y profesional, una forma de automatizar algo que ya funciona"
 - L2 (2026-11-09, user, verbatim): "igual solo agregalo y dejalo desactivado para mas adelante revisarlo nuevamente" (about the humanize step; the switch itself is built in plan 2).
 - L3 (2026-11-09): Spec and plan approved by the user, inline execution chosen. Plan code passed 68 tests and typecheck in a scratch copy before execution.
+- L4 (2026-11-09): T1-T12 complete. Each of T2-T12 observed RED on the missing module and then GREEN. Full suite: 68 passed. Typecheck: exit 0. Native assessment on every commit, against base 98ddf41: risk medium, not due (under_budget). No native review ran. Risk: none. Next: plan 2 (AI and sources).
