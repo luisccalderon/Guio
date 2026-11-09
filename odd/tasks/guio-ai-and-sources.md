@@ -33,7 +33,7 @@ Route for every task: inline. No Writer trigger holds: tasks are sequential and 
 | T10 | S7, S8 | Draft and rewrite | done | c02f6f1 |
 | T11 | S9 | Verification run and style profile | done | 6355bc5 |
 | T12 | S2 | Spec note on OpenCode delivery | done | 4c84a77 |
-| T13 | S2 | Manual check of the OpenCode connector | pending | - |
+| T13 | S2 | Manual check of the OpenCode connector | done | manual, see L8 |
 
 ## Log
 
@@ -44,3 +44,4 @@ Route for every task: inline. No Writer trigger holds: tasks are sequential and 
 - L5 (2026-11-09): Independent verifier on T3: S1, S2, S3 met, no blockers. Its advisory on dash-prefixed model names is fixed with regression tests. Constraint for plan 4: the settings layer must not expose `command` on a preset while it reports `restricted: true`. Pre-existing advisory left open: a `.cmd` argument ending in a backslash merges with the next argument; model names cannot contain a backslash.
 - L6 (2026-11-09): Commits 581f5bc, 43c9450, fc076a7 reviewed with the risk lens: approved, no findings, acknowledged. Boundary now fc076a7.
 - L7 (2026-11-09): T1-T12 complete, each with observed RED then GREEN. Full suite 165 passed, typecheck exit 0. Commits after fc076a7 assessed medium, not due (under_budget), no native review. T13 remains pending because OpenCode quota is exhausted: tool denial and the text event shape are unproven against the real CLI. Risk: item 2 (CLI agent restriction), item 5 (new dependencies).
+- L8 (2026-11-09): T13 passed with `--model claude-agent/haiku`: with the connector's exact arguments the reply was `NO_TOOLS`, no `pwned.txt` was created, the `text` event carried `part.text`, and `--standalone` released the folder. Free-tier quota is account-wide, so free models could not be used. User, verbatim: "con opencode tendrias que seleccionar el modelo(ya que el default es un modelo local que tengo, pero no esta corriendo ahora mismo)". The app must let the user choose the OpenCode model.
