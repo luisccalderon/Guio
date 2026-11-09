@@ -1,0 +1,43 @@
+Objective: deliver the Electron desktop app so the user can run `npm run dev` and go from links to a verified script (plan 3 of 4).
+Branch: feat/desktop-app. Delivery strategy: exception-ok, local repository with no remote and one commit per task. Test runner: Vitest.
+Code source: untracked draft docs/superpowers/plans/2026-11-09-guio-03-desktop-app.md, not committed by decision of L2; each task still goes test first. Spec: docs/superpowers/specs/2026-11-09-guio-design.md.
+
+## Specs
+
+- S1: Electron, React, TypeScript; the renderer only displays UI and reaches the main process through one typed IPC API with inputs validated (spec section 5).
+- S2: Context isolation and sandbox on, no Node integration, external content rendered as text only; hidden extraction window has no preload, an isolated session, and blocks downloads and popups (spec section 9).
+- S3: Projects list and three-pane workspace with steps Inbox, Cards, Skeleton, Draft, Review, Verify, Export; the right panel shows the support for the active item (spec section 2, approved mockups).
+- S4: Application operations: projects, links with fallback and manual paste, personal tests, cards, selection with explicit approval for unverified points, skeleton editing with stale blocks, draft, rewrite with confirm-overwrite, manual edit, history restore, verification, acceptances, export gate (spec sections 2, 7, 8).
+- S5: One running AI step per project, cancellable; steps still running at launch become interrupted (spec section 10).
+- S6: Settings with one connector and model for all steps, Test connection, humanize switch off by default, words per minute. User, verbatim: "con opencode tendrias que seleccionar el modelo(ya que el default es un modelo local que tengo, pero no esta corriendo ahora mismo)". Presets expose no `command` override.
+
+## Tasks
+
+Route for every task: inline, by the user's choice in L2.
+
+| ID | Delivery | Specs | Task | Status | Commit |
+|----|----------|-------|------|--------|--------|
+| T1 | 1 | S2 | Tooling and content security policy | pending | - |
+| T2 | 1 | S6 | Connector settings and connector factory | pending | - |
+| T3 | 1 | S1 | Shared typed IPC contract | pending | - |
+| T4 | 1 | S5 | Step registry | pending | - |
+| T5 | 1 | S4 | Project snapshot and sources service | pending | - |
+| T6 | 1 | S4 | Skeleton service | pending | - |
+| T7 | 1 | S4 | Script service | pending | - |
+| T8 | 1 | S4 | Verification service and application facade | pending | - |
+| T9 | 1 | S1 | IPC dispatcher | pending | - |
+| T10 | 1 | S2 | Hidden-window page loader | pending | - |
+| T11 | 1 | S1, S2 | Electron shell, preload, and first build | pending | - |
+| T12 | 1 | S3, S6 | Renderer foundation, project list, and settings | pending | - |
+| T13 | 2 | S3, S4 | Inbox, Cards, and the support panel | pending | - |
+| T14 | 2 | S3, S4 | Skeleton screen | pending | - |
+| T15 | 3 | S3, S4 | Draft and Review screens | pending | - |
+| T16 | 3 | S3, S4 | Verify and Export screens | pending | - |
+| T17 | 3 | S3 | Workspace and application routes | pending | - |
+| T18 | 3 | S1-S6 | Manual walk of the flow with a real connector | pending | - |
+
+## Log
+
+- L1 (2026-11-09, user, verbatim): "bien, lo que vamos a hacer es una app para poder hacer los guiones de mis videos de forma mas facil  rapida, desde las fuentes con informacion a extraer hasta la creacion del guio y formato de manera profesional y unica."
+- L2 (2026-11-09): After asking why the plan took so long, the user chose a short plan and building by deliveries in this session. A stopped worker had already left a nearly finished draft with full code, so it is reused as the code source instead of being rewritten.
+- L3 (2026-11-09): Risk named before implementation: item 2 (window sandbox and IPC guards, T9-T11), item 5 (new dependencies, T1).
