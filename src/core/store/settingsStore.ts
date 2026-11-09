@@ -1,15 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { z } from "zod";
 import { writeFileAtomic } from "./atomicWrite";
+import { AppSettingsSchema, type AppSettings } from "./settingsSchema";
 
-export const AppSettingsSchema = z.object({
-  humanizeEnabled: z.boolean().default(false),
-  humanizeRules: z.string().nullable().default(null),
-  wordsPerMinute: z.number().int().positive().default(150),
-});
-
-export type AppSettings = z.infer<typeof AppSettingsSchema>;
+export { AppSettingsSchema, type AppSettings } from "./settingsSchema";
 
 export class SettingsStore {
   private readonly path: string;
