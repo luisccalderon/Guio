@@ -28,7 +28,7 @@ function modelArgs(model: string | undefined): string[] {
   if (model === undefined) {
     return [];
   }
-  if (!/^[\w./:#@-]+$/.test(model)) {
+  if (!/^[\w./:#@][\w./:#@-]*$/.test(model)) {
     throw new ConnectorError("failed", `Invalid model name: ${model}`);
   }
   return ["--model", model];

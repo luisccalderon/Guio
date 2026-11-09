@@ -72,6 +72,21 @@ describe("Claude connector", () => {
     await expect(connector.generate(request, signal)).rejects.toMatchObject({ kind: "failed" });
   });
 
+  it("rejects a model name that looks like a flag", async () => {
+    const connector = createClaudeConnector({ ...(await fake(REPORT)), model: "--dangerously-skip-permissions" });
+    await expect(connector.generate(request, signal)).rejects.toMatchObject({
+      kind: "failed",
+      message: expect.stringContaining("Invalid model name"),
+    });
+  });
+
+  it("delivers shell metacharacters unchanged", async () => {
+    const connector = createClaudeConnector(await fake(REPORT));
+    const hostile = `a & b | "c" %PATH% !PATH!\r\nnext`;
+    const seen = JSON.parse(await connector.generate({ ...request, prompt: hostile }, signal));
+    expect(seen.stdin).toBe(hostile);
+  });
+
   it("reports a missing CLI as not-found", async () => {
     const connector = createClaudeConnector({ command: "guio-no-such-cli" });
     await expect(connector.generate(request, signal)).rejects.toMatchObject({ kind: "not-found" });
