@@ -17,23 +17,23 @@ Route for every task: inline, by the user's choice in L2.
 
 | ID | Delivery | Specs | Task | Status | Commit |
 |----|----------|-------|------|--------|--------|
-| T1 | 1 | S2 | Tooling and content security policy | pending | - |
-| T2 | 1 | S6 | Connector settings and connector factory | pending | - |
-| T3 | 1 | S1 | Shared typed IPC contract | pending | - |
-| T4 | 1 | S5 | Step registry | pending | - |
-| T5 | 1 | S4 | Project snapshot and sources service | pending | - |
-| T6 | 1 | S4 | Skeleton service | pending | - |
-| T7 | 1 | S4 | Script service | pending | - |
-| T8 | 1 | S4 | Verification service and application facade | pending | - |
-| T9 | 1 | S1 | IPC dispatcher | pending | - |
-| T10 | 1 | S2 | Hidden-window page loader | pending | - |
-| T11 | 1 | S1, S2 | Electron shell, preload, and first build | pending | - |
-| T12 | 1 | S3, S6 | Renderer foundation, project list, and settings | pending | - |
-| T13 | 2 | S3, S4 | Inbox, Cards, and the support panel | pending | - |
-| T14 | 2 | S3, S4 | Skeleton screen | pending | - |
-| T15 | 3 | S3, S4 | Draft and Review screens | pending | - |
-| T16 | 3 | S3, S4 | Verify and Export screens | pending | - |
-| T17 | 3 | S3 | Workspace and application routes | pending | - |
+| T1 | 1 | S2 | Tooling and content security policy | done | 99912d0 |
+| T2 | 1 | S6 | Connector settings and connector factory | done | 0a07efc |
+| T3 | 1 | S1 | Shared typed IPC contract | done | c605bf4 |
+| T4 | 1 | S5 | Step registry | done | 6091ae9 |
+| T5 | 1 | S4 | Project snapshot and sources service | done | 72233f9 |
+| T6 | 1 | S4 | Skeleton service | done | 950a40d |
+| T7 | 1 | S4 | Script service | done | 462e164 |
+| T8 | 1 | S4 | Verification service and application facade | done | 16ffd5f |
+| T9 | 1 | S1 | IPC dispatcher | done | 9b63fe2 |
+| T10 | 1 | S2 | Hidden-window page loader | done | ad204c1 |
+| T11 | 1 | S1, S2 | Electron shell, preload, and first build | done | 037556b |
+| T12 | 1 | S3, S6 | Renderer foundation, project list, and settings | done | b512c0d |
+| T13 | 2 | S3, S4 | Inbox, Cards, and the support panel | done | 5f514d8 |
+| T14 | 2 | S3, S4 | Skeleton screen | done | 58cc5e7 |
+| T15 | 3 | S3, S4 | Draft and Review screens | done | 6a77c2b |
+| T16 | 3 | S3, S4 | Verify and Export screens | done | 0cfdce0 |
+| T17 | 3 | S3 | Workspace and application routes | done | 618e44d |
 | T18 | 3 | S1-S6 | Manual walk of the flow with a real connector | pending | - |
 
 ## Log
@@ -41,3 +41,4 @@ Route for every task: inline, by the user's choice in L2.
 - L1 (2026-11-09, user, verbatim): "bien, lo que vamos a hacer es una app para poder hacer los guiones de mis videos de forma mas facil  rapida, desde las fuentes con informacion a extraer hasta la creacion del guio y formato de manera profesional y unica."
 - L2 (2026-11-09): After asking why the plan took so long, the user chose a short plan and building by deliveries in this session. A stopped worker had already left a nearly finished draft with full code, so it is reused as the code source instead of being rewritten.
 - L3 (2026-11-09): Risk named before implementation: item 2 (window sandbox and IPC guards, T9-T11), item 5 (new dependencies, T1).
+- L4 (2026-11-09): T1-T17 complete, each with observed RED then GREEN. Full suite 362 passed, typecheck exit 0, electron-vite build exit 0. Native assessment: medium, not due (under_budget). A launch probe over the remote debugging port found a defect no test covered: top-level await on app.whenReady() deadlocked the main process, so no window opened. Fixed by launching without top-level await; the same probe then read the rendered project screen, no console errors, `window.guio` present, no `require` or `process` in the renderer. Next: T18, the user's manual walk with a real connector.

@@ -68,4 +68,8 @@ async function launch(): Promise<void> {
 
 app.on("window-all-closed", () => app.quit());
 
-await launch();
+// No top-level await: the ready event fires only after this module finishes loading.
+launch().catch((error: unknown) => {
+  console.error("Guio failed to start.", error);
+  app.exit(1);
+});
