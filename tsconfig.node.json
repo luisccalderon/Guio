@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/core",
+    "src/main",
+    "src/preload",
+    "src/shared",
+    "tests/core",
+    "tests/helpers",
+    "tests/main",
+    "tests/shared",
+    "electron.vite.config.ts",
+    "vitest.config.ts"
+  ]
+}
