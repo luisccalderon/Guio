@@ -44,6 +44,22 @@ describe("runProcess", () => {
     await expect(pending).rejects.toMatchObject({ kind: "cancelled" });
   });
 
+  it("stops a process that produces too much output", async () => {
+    const script = join(dir, "s.mjs");
+    await writeFile(script, `process.stdout.write("x".repeat(100000)); ${SLEEP}`);
+    await expect(
+      runProcess({
+        command: process.execPath,
+        args: [script],
+        stdin: "",
+        cwd: dir,
+        timeoutMs: 10_000,
+        signal: new AbortController().signal,
+        maxOutputChars: 1000,
+      }),
+    ).rejects.toMatchObject({ kind: "failed", message: expect.stringContaining("too much output") });
+  });
+
   it("does not start when already aborted", async () => {
     const controller = new AbortController();
     controller.abort();
