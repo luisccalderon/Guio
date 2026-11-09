@@ -117,6 +117,17 @@ describe("OpenCode connector", () => {
     expect(seen.argv[seen.argv.indexOf("--model") + 1]).toBe("provider/model");
   });
 
+  it("explains the expected form of a model without a provider, without launching the CLI", async () => {
+    const connector = createOpenCodeConnector({
+      ...(await fake(`console.log("launched");`)),
+      model: "deepseek-v4.1-flash-free",
+    });
+    await expect(connector.generate(request, signal)).rejects.toMatchObject({
+      kind: "failed",
+      message: expect.stringContaining("provider/model"),
+    });
+  });
+
   it("surfaces the provider error message", async () => {
     const connector = createOpenCodeConnector(
       await fake(`console.log(JSON.stringify({ type: "error", error: { message: "Free usage limit reached" } })); process.exit(1);`),

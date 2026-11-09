@@ -56,7 +56,11 @@ describe("Settings", () => {
     const { user } = await open();
     await user.selectOptions(screen.getByLabelText("Connector"), "opencode-cli");
     expect(screen.getByLabelText<HTMLInputElement>("Model").required).toBe(true);
-    expect(screen.getByText("Required. OpenCode's default model may be a local one that is not running.")).toBeTruthy();
+    expect(
+      screen.getByText(
+        "Required, as provider/model, for example opencode/deepseek-v4.1-flash-free. OpenCode's default model may be a local one that is not running.",
+      ),
+    ).toBeTruthy();
   });
 
   it("saves the chosen connector and options", async () => {

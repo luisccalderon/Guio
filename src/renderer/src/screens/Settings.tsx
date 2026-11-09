@@ -11,7 +11,8 @@ const CONNECTORS: { kind: ConnectorKind; label: string }[] = [
 
 const MODEL_HINTS: Record<ConnectorKind, string> = {
   "claude-cli": "Optional. Leave blank to use the CLI's default model.",
-  "opencode-cli": "Required. OpenCode's default model may be a local one that is not running.",
+  "opencode-cli":
+    "Required, as provider/model, for example opencode/deepseek-v4.1-flash-free. OpenCode's default model may be a local one that is not running.",
   ollama: "Required. Use a model you have already pulled.",
   "openai-compatible": "Required. Use the model name your server expects.",
 };

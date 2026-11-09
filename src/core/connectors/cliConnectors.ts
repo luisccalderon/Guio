@@ -135,6 +135,9 @@ function denyAllAgent(system: string): string {
 export function createOpenCodeConnector(options: CliOptions = {}): Connector {
   return connectorWithTest("opencode-cli", true, (request, signal) =>
     inScratch(async (dir) => {
+      if (options.model !== undefined && !options.model.includes("/")) {
+        throw new ConnectorError("failed", `OpenCode needs the model as provider/model, for example opencode/${options.model}.`);
+      }
       const agents = join(dir, ".opencode", "agents");
       await mkdir(agents, { recursive: true });
       await writeFile(join(agents, "guio-writer.md"), denyAllAgent(request.system), "utf8");
