@@ -204,7 +204,8 @@ While the step is on, export warns, without blocking, when any block has the "No
 - The hidden extraction window has no preload script, uses an isolated session, and blocks downloads and popups.
 - CLI connectors run with agent tools disabled and in an empty temporary working directory. Each preset's restriction flags are confirmed against that CLI's current documentation at implementation time.
 - If a CLI cannot be restricted, the custom command included, the app warns the user before its first use.
-- Prompts are passed through stdin and are never interpolated into a shell command.
+- Prompts are passed through stdin, or as a file attachment for CLIs that do not read stdin, such as OpenCode. They are never interpolated into a shell command.
+- OpenCode is restricted through a deny-all agent written to the temporary working directory.
 
 ## 10. Failure Handling
 
