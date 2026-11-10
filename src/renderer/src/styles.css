@@ -4,10 +4,13 @@
   --panel: oklch(95.2% 0.008 85);
   --raised: oklch(99% 0.004 85);
   --line: oklch(87% 0.01 85);
+  --line-strong: oklch(78% 0.012 85);
   --ink: oklch(25% 0.012 85);
   --muted: oklch(48% 0.012 85);
   --accent: oklch(46% 0.12 250);
+  --accent-strong: oklch(41% 0.12 250);
   --accent-soft: oklch(92% 0.03 250);
+  --on-accent: oklch(98% 0.005 250);
   --warn: oklch(46% 0.1 70);
   --warn-soft: oklch(93% 0.05 85);
   --danger: oklch(46% 0.15 25);
@@ -16,6 +19,28 @@
   font: 14px/1.5 "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
   color: var(--ink);
   background: var(--paper);
+}
+
+/* The renderer resolves the stored preference to an explicit value, so `system`
+   never needs a media query here. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: oklch(21% 0.008 85);
+  --panel: oklch(25% 0.009 85);
+  --raised: oklch(28% 0.01 85);
+  --line: oklch(35% 0.012 85);
+  --line-strong: oklch(45% 0.014 85);
+  --ink: oklch(93% 0.006 85);
+  --muted: oklch(70% 0.01 85);
+  --accent: oklch(72% 0.11 250);
+  --accent-strong: oklch(80% 0.1 250);
+  --accent-soft: oklch(32% 0.05 250);
+  --on-accent: oklch(20% 0.02 250);
+  --warn: oklch(78% 0.1 75);
+  --warn-soft: oklch(31% 0.045 75);
+  --danger: oklch(70% 0.15 25);
+  --danger-soft: oklch(31% 0.05 25);
+  --ok: oklch(72% 0.09 150);
 }
 
 * {
@@ -63,7 +88,7 @@ button {
 
 button:hover:not(:disabled) {
   background: var(--panel);
-  border-color: oklch(78% 0.012 85);
+  border-color: var(--line-strong);
 }
 
 button:active:not(:disabled) {
@@ -79,12 +104,12 @@ button:disabled {
 button.primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: oklch(98% 0.005 250);
+  color: var(--on-accent);
 }
 
 button.primary:hover:not(:disabled) {
-  background: oklch(41% 0.12 250);
-  border-color: oklch(41% 0.12 250);
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
 }
 
 button.quiet {

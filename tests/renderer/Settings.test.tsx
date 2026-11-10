@@ -5,9 +5,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Settings } from "../../src/renderer/src/screens/Settings";
 import { stubGuio } from "./guioStub";
 
-const DEFAULTS = { humanizeEnabled: false, humanizeRules: null, wordsPerMinute: 150 };
+const DEFAULTS = { humanizeEnabled: false, humanizeRules: null, wordsPerMinute: 150, theme: "system" };
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  delete document.documentElement.dataset.theme;
+});
 
 async function open(replies = {}) {
   const invoke = stubGuio({ getSettings: DEFAULTS, ...replies });
@@ -79,6 +82,17 @@ describe("Settings", () => {
     await user.click(screen.getByRole("button", { name: "Save" }));
     expect(invoke).toHaveBeenCalledWith("saveSettings", { settings: saved });
     expect(await screen.findByText("Saved.")).toBeTruthy();
+  });
+
+  it("offers the three themes and applies the saved one", async () => {
+    const saved = { ...DEFAULTS, theme: "dark", connector: { kind: "claude-cli", model: "", baseUrl: "" } };
+    const { invoke, user } = await open({ saveSettings: saved });
+    const select = screen.getByLabelText<HTMLSelectElement>("Theme");
+    expect([...select.options].map((option) => option.text)).toEqual(["System", "Light", "Dark"]);
+    await user.selectOptions(select, "dark");
+    await user.click(screen.getByRole("button", { name: "Save" }));
+    expect(invoke).toHaveBeenCalledWith("saveSettings", { settings: saved });
+    expect(document.documentElement.dataset.theme).toBe("dark");
   });
 
   it("shows the validation message from the main process", async () => {

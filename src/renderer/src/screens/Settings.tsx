@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import type { AppSettings, ConnectorKind, ConnectorSettings } from "../../../core/store/settingsSchema";
+import type { AppSettings, ConnectorKind, ConnectorSettings, Theme } from "../../../core/store/settingsSchema";
 import { call } from "../api";
+import { applyTheme } from "../theme";
 
 const CONNECTORS: { kind: ConnectorKind; label: string }[] = [
   { kind: "claude-cli", label: "Claude CLI" },
@@ -18,6 +19,12 @@ const MODEL_HINTS: Record<ConnectorKind, string> = {
 };
 
 const INITIAL_CONNECTOR: ConnectorSettings = { kind: "claude-cli", model: "", baseUrl: "" };
+
+const THEME_LABELS: { value: Theme; label: string }[] = [
+  { value: "system", label: "System" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+];
 
 export function Settings({ onBack }: { onBack(): void }) {
   const [settings, setSettings] = useState<AppSettings | null>(null);
@@ -42,6 +49,7 @@ export function Settings({ onBack }: { onBack(): void }) {
     try {
       const saved = await call("saveSettings", { settings: { ...settings, connector } });
       setSettings(saved);
+      applyTheme(saved.theme);
       setStatus({ tone: "ok", text: "Saved." });
     } catch (error) {
       setStatus({ tone: "error", text: (error as Error).message });
@@ -111,6 +119,22 @@ export function Settings({ onBack }: { onBack(): void }) {
             Test connection
           </button>
         </div>
+
+        <h2>Appearance</h2>
+        <label>
+          <span>Theme</span>
+          <select
+            value={settings.theme}
+            onChange={(event) => setSettings({ ...settings, theme: event.target.value as Theme })}
+          >
+            {THEME_LABELS.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <p className="muted">System follows your operating system's light or dark setting.</p>
 
         <h2>Script</h2>
         <label className="check">

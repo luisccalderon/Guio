@@ -86,18 +86,19 @@ describe("SettingsStore", () => {
       humanizeEnabled: false,
       humanizeRules: null,
       wordsPerMinute: 150,
+      theme: "system",
     });
   });
 
   it("persists changes", async () => {
     const store = new SettingsStore(dir);
-    await store.save({ humanizeEnabled: true, humanizeRules: "mine", wordsPerMinute: 160 });
+    await store.save({ humanizeEnabled: true, humanizeRules: "mine", wordsPerMinute: 160, theme: "system" });
     expect((await new SettingsStore(dir).get()).humanizeEnabled).toBe(true);
   });
 
   it("uses edited rules over the bundled copy, and the bundled copy after a reset", () => {
-    expect(effectiveHumanizeRules({ humanizeEnabled: true, humanizeRules: "mine", wordsPerMinute: 150 }, "bundled")).toBe("mine");
-    expect(effectiveHumanizeRules({ humanizeEnabled: true, humanizeRules: null, wordsPerMinute: 150 }, "bundled")).toBe("bundled");
+    expect(effectiveHumanizeRules({ humanizeEnabled: true, humanizeRules: "mine", wordsPerMinute: 150, theme: "system" }, "bundled")).toBe("mine");
+    expect(effectiveHumanizeRules({ humanizeEnabled: true, humanizeRules: null, wordsPerMinute: 150, theme: "system" }, "bundled")).toBe("bundled");
   });
 });
 

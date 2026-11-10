@@ -21,15 +21,26 @@ afterEach(async () => {
 describe("settings", () => {
   it("defaults to Claude CLI with humanize off at 150 words per minute", async () => {
     const settings = await new SettingsStore(dir).get();
-    expect(settings).toEqual({ humanizeEnabled: false, humanizeRules: null, wordsPerMinute: 150 });
+    expect(settings).toEqual({ humanizeEnabled: false, humanizeRules: null, wordsPerMinute: 150, theme: "system" });
     expect(connectorOf(settings)).toEqual(claudeDefaults);
   });
 
   it("still loads a settings file written before connectors existed", async () => {
     await writeFile(join(dir, "settings.json"), '{"humanizeEnabled":true,"wordsPerMinute":170}', "utf8");
     const settings = await new SettingsStore(dir).get();
-    expect(settings).toEqual({ humanizeEnabled: true, humanizeRules: null, wordsPerMinute: 170 });
+    expect(settings).toEqual({ humanizeEnabled: true, humanizeRules: null, wordsPerMinute: 170, theme: "system" });
     expect(connectorOf(settings)).toEqual(claudeDefaults);
+  });
+
+  it("persists the chosen theme", async () => {
+    const store = new SettingsStore(dir);
+    await store.save({ ...(await store.get()), theme: "dark" });
+    expect((await new SettingsStore(dir).get()).theme).toBe("dark");
+  });
+
+  it("falls back to the system theme for an unknown stored value", async () => {
+    await writeFile(join(dir, "settings.json"), '{"theme":"neon"}', "utf8");
+    expect((await new SettingsStore(dir).get()).theme).toBe("system");
   });
 
   it("persists the chosen connector and model", async () => {

@@ -38,13 +38,19 @@ export const ConnectorSettingsSchema = z
     }
   });
 
+export const THEMES = ["system", "light", "dark"] as const;
+
 export const AppSettingsSchema = z.object({
   humanizeEnabled: z.boolean().default(false),
   humanizeRules: z.string().nullable().default(null),
   wordsPerMinute: z.number().int().positive().default(150),
+  /** An unknown stored value falls back to the system theme instead of failing startup. */
+  theme: z.enum(THEMES).catch("system").default("system"),
   /** Absent in files written before connectors existed. Read it through `connectorOf`. */
   connector: ConnectorSettingsSchema.optional(),
 });
+
+export type Theme = (typeof THEMES)[number];
 
 export type ConnectorKind = (typeof CONNECTOR_KINDS)[number];
 export type ConnectorSettings = z.infer<typeof ConnectorSettingsSchema>;
