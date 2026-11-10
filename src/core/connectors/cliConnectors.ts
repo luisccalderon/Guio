@@ -116,6 +116,11 @@ export function parseOpenCodeEvents(output: string): { text: string; error: stri
   return { text, error };
 }
 
+// OpenCode appends these rules last and the last match wins, so the wildcard
+// deny keeps every tool blocked, dynamic MCP tools included. The trailing `read`
+// allow is required for a different reason: OpenCode's free tier rejects a request
+// whose tool set is empty with "Free usage limit reached", and `read` only reaches
+// the throwaway run folder because `external_directory` is denied.
 function denyAllAgent(system: string): string {
   return [
     "---",
@@ -125,6 +130,9 @@ function denyAllAgent(system: string): string {
     '  - action: "*"',
     '    resource: "*"',
     "    effect: deny",
+    "  - action: read",
+    '    resource: "*"',
+    "    effect: allow",
     "---",
     "",
     system,

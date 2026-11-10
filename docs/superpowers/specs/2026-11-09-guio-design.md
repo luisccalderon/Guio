@@ -205,7 +205,7 @@ While the step is on, export warns, without blocking, when any block has the "No
 - CLI connectors run with agent tools disabled and in an empty temporary working directory. Each preset's restriction flags are confirmed against that CLI's current documentation at implementation time.
 - If a CLI cannot be restricted, the custom command included, the app warns the user before its first use.
 - Prompts are passed through stdin, or as a file attachment for CLIs that do not read stdin, such as OpenCode. They are never interpolated into a shell command.
-- OpenCode is restricted through a deny-all agent written to the temporary working directory.
+- OpenCode is restricted through an agent written to the temporary working directory that denies every action and then re-allows only `read`; OpenCode applies the last matching rule and rejects a request with no tools with "Free usage limit reached".
 
 ## 10. Failure Handling
 

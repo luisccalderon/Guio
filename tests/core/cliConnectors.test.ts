@@ -107,8 +107,14 @@ describe("OpenCode connector", () => {
     });
     const seen = JSON.parse(await connector.generate(request, signal));
     expect(seen.prompt).toBe("PROMPT TEXT");
-    expect(seen.agent).toContain('action: "*"');
-    expect(seen.agent).toContain("effect: deny");
+    // OpenCode V2 appends agent rules last and the last match wins, so a wildcard
+    // deny keeps every tool (including dynamic MCP ones) blocked, and the trailing
+    // `read` allow is what keeps the request non-empty: the free tier rejects a
+    // tool-less request with "Free usage limit reached".
+    expect(seen.agent).toMatch(/action: "\*"\n\s+resource: "\*"\n\s+effect: deny/);
+    expect(seen.agent).toMatch(/action: read\n\s+resource: "\*"\n\s+effect: allow/);
+    expect(seen.agent.indexOf('action: "*"')).toBeLessThan(seen.agent.indexOf("action: read"));
+    expect(seen.agent.match(/effect: allow/g)).toHaveLength(1);
     expect(seen.agent).toContain("SYSTEM TEXT");
     expect(seen.argv).toEqual(
       expect.arrayContaining(["run", "--standalone", "--agent", "guio-writer", "--format", "json", "--file", "prompt.txt"]),
